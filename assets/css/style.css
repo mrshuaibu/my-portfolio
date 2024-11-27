@@ -237,3 +237,75 @@ h1 {
     color: var(--app-font-color);
     background-color: var(--app-hover-cover);
 }
+
+/*--------------------------------*/
+/*About me*/
+/*--------------------------------*/
+
+.about-me-button {
+    margin: 20px 0;
+    height: 40px;
+    width: 150px;
+    border-radius: var(--app-box-radius);
+    color: #000;
+    background-color: var(--app-font-color);
+    padding: 10px 15px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.about-me-button:hover {
+    color: #000;
+    background-color: var(--app-hover-cover);
+}
+
+.about-me-writeup {
+    gap: 25px;
+}
+
+.my-pic {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    margin: 0 auto;
+}
+
+.my-pic img {
+    width: 100%;
+    height: auto;
+}
+
+.write-up {
+    gap: 20px;
+}
+
+article {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+}
+
+article p {
+    max-width: 700px;
+    padding: 5px;
+    color: var(--app-font-color);
+    line-height: 1.5;
+}
+
+h2 {
+    padding: 10px;
+    text-align: center;
+    font-size: 35px;
+    font-weight: 600;
+    color: var(--app-font-color);
+}
+
+.height {
+    padding: 70px 0;
+}
