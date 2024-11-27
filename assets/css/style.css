@@ -255,10 +255,16 @@ h1 {
     text-decoration: none;
 }
 
-.about-me-button:hover {
+.about-me-button:hover,
+.about-me-button:focus {
     color: #000;
     background-color: var(--app-hover-cover);
 }
+
+/* .about-me-button:hover {
+    color: #000;
+    background-color: var(--app-hover-cover);
+} */
 
 .about-me-writeup {
     gap: 25px;
