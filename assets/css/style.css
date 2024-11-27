@@ -585,3 +585,39 @@ h4 {
         color: var(--app-font-color);
     }
 }
+
+/*--------------------------------*/
+/*Footer*/
+/*--------------------------------*/
+
+footer {
+    color: var(--app-font-color);
+}
+
+.footer {
+    justify-content: space-between;
+}
+
+.copyright {
+    height: 50px;
+    cursor: default;
+
+    p {
+        font-size: 20px;
+        line-height: 70px; 
+    }
+}
+
+.social-list li {
+    line-height: 70px;
+    font-size: 25px;
+}
+
+.social-list li a {
+    margin-right: 15px;
+    color: var(--app-font-color);
+}
+
+.social-list li a:hover {
+    color: var(--app-hover-cover);
+}
