@@ -1,0 +1,44 @@
+@charset "utf-8";
+@import url(./root.css);
+
+/*--------------------------------*/
+/*General Rules*/
+/*--------------------------------*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    line-height: 1.5;
+}
+
+html {
+    font-family: 'Nunito Sans', 'Open Sans', Arial, sans-serif;
+    font-size: 62.5%;
+}
+
+.container {
+    width: min(100% - 30px, 1080px);
+    margin-inline: auto;
+}
+
+.flex {
+    display: flex;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    grid-template-rows: repeat(2, auto); 
+    gap: 20px; 
+    padding: 20px;
+    justify-items: stretch;
+}
+
+.bg {
+    background: var(--app-dark-mode);
+}
+
+.bg2 {
+    background-color: var(--app-dark-mode1);
+}
