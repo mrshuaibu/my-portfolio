@@ -150,3 +150,21 @@ a:hover {
     font-weight: 700;
     cursor: default;
 }
+
+/*--------------------------------*/
+/*Body*/
+/*--------------------------------*/
+
+header, footer {
+    height: 70px;
+}
+
+.area {
+    min-height: calc(100vh - 140px); 
+    position: relative;
+    flex: 1;
+}
+
+.get-in-touch, .download-cv-button, .about-me-button, .view-github-button {
+    transition: background-color 0.3s, color 0.3s;
+}
