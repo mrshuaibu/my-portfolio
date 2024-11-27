@@ -309,3 +309,279 @@ h2 {
 .height {
     padding: 70px 0;
 }
+
+/*--------------------------------*/
+/*Skills*/
+/*--------------------------------*/
+
+.technologies {
+    justify-content: center;     
+    align-items: center;
+    text-align: center;
+    margin: 5px;
+    border-radius: var(--app-box-radius);
+    color: var(--app-font-color);
+}
+
+.icon {
+    font-size: 30px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.level {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+
+    p {
+        line-height: 1.5;
+    }
+}
+
+h3 {
+    padding: 10px;
+    text-align: center;
+    font-size: 34px;
+    font-weight: 600;
+    color: var(--app-font-color);
+}
+
+/*--------------------------------*/
+/*projects*/
+/*--------------------------------*/
+
+.row {
+    margin-top: 10px;
+    gap: 20px;
+    flex-wrap: wrap;
+
+    p {
+        color: var(--app-font-color);
+    }
+}
+
+.col {
+    flex: 0 0 auto;
+    width: calc(33.333333% - 13.333333px);
+    height: auto;
+    border-radius: var(--app-box-radius);
+    border: 1px solid rgb(0 0 0 / 0.2);
+
+    p {
+        margin: 10px;
+        padding: 5px;
+    }
+}
+
+.links {
+    justify-content: center;     
+    align-items: center;
+    text-align: center;
+}
+
+.button {
+    padding: 5px;
+    width: 150px;
+    margin: 25px 5px;
+    align-self: flex-start;
+    height: 40px;
+    border-radius: var(--app-box-radius);
+    background-color: #4a90e2;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+
+    a {
+        color: var(--app-font-color);
+    }
+}
+
+.button2 {
+    padding: 5px;
+    width: 150px;
+    margin: 25px 5px;
+    align-self: flex-start;
+    height: 40px;
+    border-radius: var(--app-box-radius);
+    background-color: var(--app-font-color);
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+
+    a {
+        color: #000;
+    }
+}
+
+.button:hover {
+    color: var(--app-font-color);
+    background-color: var(--app-hover-cover);
+}
+
+.button2:hover {
+    color: #000;
+    background-color: var(--app-hover-cover);
+}
+
+.subheading2 {
+    text-align: center;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.5;
+    margin-top: -10px;
+    color: var(--app-font-color);
+}
+
+h4 {
+    padding: 10px;
+    text-align: center;
+    font-size: 33px;
+    font-weight: 600;
+    color: var(--app-font-color);
+}
+
+.p {
+    font-weight: 600;
+}
+
+.view-github-button {
+    margin-bottom: 25px;
+    padding-left: 5px;
+}
+
+.view-github {
+    height: 40px;
+    width: 150px;
+    border-radius: var(--app-box-radius);
+    background-color: var(--app-button-color);
+    padding: 10px 15px;
+    text-align: center;
+    color: var(--app-font-color);
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.view-github:hover {
+    color: var(--app-font-color);
+    background-color: var(--app-hover-cover);
+}
+
+/*--------------------------------*/
+/*Media queries*/
+/*--------------------------------*/
+
+@media (max-width: 768px) {
+    .about-me-writeup {
+        flex-direction: column; 
+    }
+
+    .about-me-writeup .my-pic {
+        order: 1;
+    }
+
+    .about-me-writeup article {
+        order: 2;
+    }
+
+    .one, .two {
+        width: calc(50% - 10px);
+    }
+
+    .three {
+        width: 100%;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+
+    h1 {
+        font-size: 36px;
+    }
+
+    h2 {
+        font-size: 34px;
+    }
+
+    h3 {
+        font-size: 32px;
+    }
+
+    h4 {
+        font-size: 30px;
+    }
+
+    .subheading {
+        padding: 10px;
+        text-align: center;
+        font-size: 17px;
+        font-weight: 500;
+        line-height: 1.5;
+        margin-top: -10px;
+        color: var(--app-font-color);
+    }
+
+    .subheading2 {
+        padding: 10px;
+        text-align: center;
+        font-size: 17px;
+        font-weight: 500;
+        line-height: 1.5;
+        margin-top: -10px;
+        color: var(--app-font-color);
+    }
+}
+
+
+@media screen and (max-width: 480px) {
+    .col {
+        width: 100%;
+    }
+
+    .grid {
+        grid-template-columns: 1fr; 
+    }
+
+    h1 {
+        font-size: 34px;
+    }
+
+    h2 {
+        font-size: 32px;
+    }
+
+    h3 {
+        font-size: 30px;
+    }
+
+    h4 {
+        font-size: 28px;
+    }
+
+    .subheading {
+        padding: 10px;
+        text-align: center;
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 1.5;
+        margin-top: -10px;
+        color: var(--app-font-color);
+    }
+    .subheading2 {
+        padding: 10px;
+        text-align: center;
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 1.5;
+        margin-top: -10px;
+        color: var(--app-font-color);
+    }
+}
