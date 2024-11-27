@@ -330,6 +330,30 @@ h2 {
     padding: 20px;
 }
 
+.html-icon i {
+    color: #e34c26;
+}
+
+.css-icon i {
+    color: #1572b6; 
+}
+
+.java-icon i {
+    color: #007396; 
+}
+
+.js-icon i {
+    color: #f7df1e;
+}
+
+.ts-icon i {
+    color: #007acc; 
+}
+
+.processing-icon i {
+    color: #6e4c9e; 
+}
+
 .level {
     display: flex;
     flex-direction: column;
