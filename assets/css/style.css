@@ -42,3 +42,111 @@ html {
 .bg2 {
     background-color: var(--app-dark-mode1);
 }
+
+/*--------------------------------*/
+/*Header*/
+/*--------------------------------*/
+
+.nav {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu-icon {
+    display: none;
+    line-height: 70px;
+    cursor: pointer;
+}
+
+.get-in-touch-button {
+    line-height: 70px;
+}
+
+.get-in-touch {
+    height: 40px;
+    width: 150px;
+    border-radius: var(--app-box-radius);
+    background-color: var(--app-button-color);
+    padding: 10px 15px;
+    text-align: center;
+    color: var(--app-font-color);
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.get-in-touch:hover {
+    color: var(--app-font-color);
+    background-color: var(--app-hover-cover);
+}
+
+.bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin:  5px auto;
+    transition: all 0.3s ease-in-out;
+    background-color: var(--app-font-color);
+}
+
+a {
+    text-decoration: none;
+    color: var(--app-font-color);
+}
+
+a:hover {
+    color: var(--app-hover-cover);
+}
+
+@media (max-width: 768px) {
+    .nav {
+        justify-content: space-between;
+        align-items: center; 
+        height: 70px;
+    }
+
+    .menu-icon {
+        display: block;
+        line-height: 70px
+    }
+
+    .get-in-touch-button {
+        position: fixed;
+        left: -100%;
+        top: 70px;
+        width: 100%;
+        height: 20%;
+        transition: left 0.3s ease-in-out;
+        z-index: 1000;
+        display: flex;         
+        justify-content: center;     
+        align-items: center;
+        text-align: center;
+        line-height: 70px;
+        background-color: rgb(255 255 255 / 0.2);
+        backdrop-filter: 15px;
+    }
+
+    .get-in-touch-button.active {
+        left: 0;
+    }
+
+    .menu-icon.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-icon.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    .menu-icon.active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+}
+
+
+.logo {
+    font-size: 30px;
+    font-weight: 700;
+    cursor: default;
+}
