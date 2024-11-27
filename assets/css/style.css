@@ -18,7 +18,7 @@ html {
 }
 
 .container {
-    width: min(100% - 30px, 1080px);
+    width: min(100% - 30px, 1200px);
     margin-inline: auto;
 }
 
@@ -365,42 +365,31 @@ h3 {
 
 .col {
     flex: 0 0 auto;
-    width: calc(33.333333% - 13.333333px);
-    height: auto;
+    width: calc(25% - 20px);
+    height: 450px;
     border-radius: var(--app-box-radius);
     border: 1px solid rgb(0 0 0 / 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    box-sizing: border-box;
+}
 
-    p {
-        margin: 10px;
-        padding: 5px;
-    }
+.col p {
+    padding: 10px;
 }
 
 .links {
-    justify-content: center;     
+    display: flex; 
+    justify-content: center;
     align-items: center;
     text-align: center;
+    margin-top: auto; 
+    margin-bottom: 10px;
 }
 
 .button {
-    padding: 5px;
-    width: 150px;
-    margin: 25px 5px;
-    align-self: flex-start;
-    height: 40px;
-    border-radius: var(--app-box-radius);
-    background-color: #4a90e2;
-    font-size: 15px;
-    font-weight: 600;
-    text-decoration: none;
-    text-align: center;
-
-    a {
-        color: var(--app-font-color);
-    }
-}
-
-.button2 {
     padding: 5px;
     width: 150px;
     margin: 25px 5px;
@@ -418,9 +407,22 @@ h3 {
     }
 }
 
-.button:hover {
-    color: var(--app-font-color);
-    background-color: var(--app-hover-cover);
+.button2 {
+    padding: 5px;
+    width: 150px;
+    margin: 25px 5px;
+    align-self: flex-start;
+    height: 40px;
+    border-radius: var(--app-box-radius);
+    background-color: #4a90e2;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+
+    a {
+        color: var(--app-font-color);
+    }
 }
 
 .button2:hover {
@@ -490,12 +492,8 @@ h4 {
         order: 2;
     }
 
-    .one, .two {
+    .col {
         width: calc(50% - 10px);
-    }
-
-    .three {
-        width: 100%;
     }
 
     .grid {
