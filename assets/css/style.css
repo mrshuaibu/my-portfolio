@@ -506,6 +506,58 @@ h4 {
 }
 
 /*--------------------------------*/
+/*Reach out*/
+/*--------------------------------*/
+
+.reach-out {
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+}
+
+.reach-out p {
+    margin-bottom: 40px;
+}
+
+h5 {
+    font-size: 35px;
+    font-weight: 500;
+}
+
+.contact-social-list li a {
+    display: inline-block;          
+    margin-right: 15px;             
+    width: 50px;                    
+    height: 50px;                 
+    border-radius: 50%;            
+    background-color: #fff;        
+    text-align: center;             
+    line-height: 50px;           
+    font-size: 24px;                
+    color: #333;                    
+    transition: all 0.3s ease;     
+}
+
+.linkedin {
+    color: #0a66c2;
+}
+
+.instagram {
+    color: #e4405f; 
+}
+
+.github {
+    color: #333;
+}
+
+.email {
+    color: #333;
+}
+
+/*--------------------------------*/
 /*Media queries*/
 /*--------------------------------*/
 
