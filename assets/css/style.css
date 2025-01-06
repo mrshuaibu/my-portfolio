@@ -355,6 +355,18 @@ h2 {
     color: #6e4c9e; 
 }
 
+.cplus-icon i {
+    color: #00599C; 
+}
+
+.csharp-icon i {
+    color: #9B4993; 
+}
+
+.mysql-icon i {
+    color: #00758F; 
+}
+
 .level {
     display: flex;
     flex-direction: column;
