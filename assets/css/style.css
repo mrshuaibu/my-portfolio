@@ -261,11 +261,6 @@ h1 {
     background-color: var(--app-hover-cover);
 }
 
-/* .about-me-button:hover {
-    color: #000;
-    background-color: var(--app-hover-cover);
-} */
-
 .about-me-writeup {
     gap: 25px;
 }
@@ -387,9 +382,11 @@ h3 {
     margin-top: 10px;
     gap: 20px;
     flex-wrap: wrap;
+    cursor: default;
 
     p {
         color: var(--app-font-color);
+        cursor: default;
     }
 }
 
