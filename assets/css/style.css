@@ -506,46 +506,43 @@ h2 {
     100% { opacity: 1; transform: translateY(0); }
 }
 
+.show-more-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%;
+}
+
 /* Responsive: hide cards beyond 3 on small screens */
 @media (max-width: 768px) {
     .tech-card:nth-child(n+4) {
         display: none;
     }
     .show-more-container {
-        display: block;
-        text-align: center;
-        margin-top: 10px;
+        margin-top: 10px; 
     }
 }
 
-/* Hide by default on larger screens */
-.show-more-container {
-    display: none;
-}
-
 /* Show only on small screens */
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .show-more-container {
-        display: block;
-        text-align: center;
-        margin-top: 10px;
+        margin-top: 10px; 
     }
 }
 
 .show-more-btn {
     padding: 5px;
     width: 150px;
-    margin: 25px 5px;
-    align-self: flex-start;
     height: 40px;
     border-radius: var(--app-box-radius);
     background-color: #4a90e2;
     font-size: 15px;
     font-weight: 600;
-    text-decoration: none;
     text-align: center;
     color: var(--app-font-color);
+    cursor: pointer;
 }
+
 
 .show-more-btn:hover {
     background-color: var(--app-hover-cover);
@@ -582,6 +579,7 @@ h4 {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 25px;
     margin-top: 20px;
+    justify-content: center; /* centers grid items horizontally */
 }
 
 .project-card {
@@ -683,6 +681,11 @@ h4 {
     transition-delay: 0.5s;
 }
 
+.project-card.hidden {
+    display: none !important;
+}
+
+
 /* Initial hidden state for project section heading and subheading */
 .projects h4,
 .projects .subheading2 {
@@ -696,6 +699,27 @@ h4 {
 .projects .subheading2.active {
     opacity: 1;
     transform: translateY(0);
+}
+
+.projects .show-more-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%;
+}
+
+
+.projects .show-more-btn {
+    padding: 5px;
+    width: 150px;
+    height: 40px;
+    border-radius: var(--app-box-radius);
+    background-color: #4a90e2;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    color: var(--app-font-color);
+    cursor: pointer;
 }
 
 /*--------------------------------*/

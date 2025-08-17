@@ -34,47 +34,38 @@ menuIcon.addEventListener('click', function (event) {
 
 // TYPEWRITER EFFECT
 const subheading = document.querySelector('.subheading');
-const text = subheading.textContent;  
-subheading.textContent = '';         
+const text = subheading.textContent;
+subheading.textContent = '';
 let index = 0;
 
 function typeWriter() {
     if (index < text.length) {
         subheading.textContent += text[index];
         index++;
-        setTimeout(typeWriter, 40);  // speed of typing in ms
+        setTimeout(typeWriter, 40);
     }
 }
 
 window.addEventListener('load', typeWriter);
 
-// About Me 
-// About Me scroll animation
+// ABOUT ME
 const aboutElements = document.querySelectorAll('.animate-on-scroll');
-
 const aboutObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
         if(entry.isIntersecting) {
             const el = entry.target;
             el.classList.add('active');
-
-            // Animate paragraphs inside
             const paragraphs = el.querySelectorAll('.stagger');
             paragraphs.forEach((p, i) => {
                 setTimeout(() => p.classList.add('active'), i * 200);
             });
-
-            observer.unobserve(el); // animate only once
+            observer.unobserve(el);
         }
     });
 }, { threshold: 0.3 });
-
-// Observe all elements
 aboutElements.forEach(el => aboutObserver.observe(el));
 
-//SKILLS SECTION
-
-// Core Languages Section Animation
+// SKILLS SECTION
 const languagesSection = document.querySelector('.technologies');
 const heading = languagesSection.querySelector('h3');
 const subheading2 = languagesSection.querySelector('.subheading2');
@@ -82,70 +73,81 @@ const subheading2 = languagesSection.querySelector('.subheading2');
 const languagesObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
         if(entry.isIntersecting) {
-            // Animate heading
             heading.classList.add('active');
-
-            // Animate subheading with a small delay
-            setTimeout(() => {
-                subheading2.classList.add('active');
-            }, 200); // 0.2s delay
-
-            observer.unobserve(entry.target); // animate only once
+            setTimeout(() => subheading2.classList.add('active'), 200);
+            observer.unobserve(entry.target);
         }
     });
 }, { threshold: 0.3 });
 
 languagesObserver.observe(languagesSection);
 
-
-// Animate tech cards and progress bars on scroll
-const techCards = document.querySelectorAll('.tech-card');
+// TECH CARDS - SHOW MORE / SHOW LESS
 const showMoreBtn = document.querySelector('.show-more-btn');
+const techCards = document.querySelectorAll('.tech-card');
+const grid = document.querySelector('.grid');
 
-// Intersection Observer for scroll-triggered animation
-const observerOptions = { threshold: 0.3 };
-const observer = new IntersectionObserver((entries, obs) => {
-  entries.forEach((entry, index) => {
-    if(entry.isIntersecting) {
-      const card = entry.target;
+const cardObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if(entry.isIntersecting) {
+            const card = entry.target;
+            card.style.animation = 'fadeSlideIn 0.6s forwards';
+            const progressBar = card.querySelector('.progress-bar');
+            const level = progressBar.dataset.level;
+            setTimeout(() => progressBar.style.width = level, 100);
+            observer.unobserve(card);
+        }
+    });
+}, { threshold: 0.2 });
 
-      // Animate card
-      card.style.animation = `fadeSlideIn 0.6s forwards`;
-      card.style.animationDelay = `${index * 0.1}s`;
+techCards.forEach(card => cardObserver.observe(card));
 
-      // Animate progress bar
-      const progressBar = card.querySelector('.progress-bar');
-      const level = progressBar.dataset.level;
-      setTimeout(() => progressBar.style.width = level, index * 100);
+// Show 3 cards initially for tech section
+function updateVisibleCards() {
+    const initialVisible = 3;
+    let hiddenExists = false;
 
-      obs.unobserve(card);
-    }
-  });
-}, observerOptions);
+    techCards.forEach((card, index) => {
+        if(index < initialVisible) {
+            card.style.display = 'flex';
+        } else {
+            card.style.display = 'none';
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            hiddenExists = true;
+        }
+    });
 
-techCards.forEach(card => observer.observe(card));
-
-// Show More functionality
-showMoreBtn.addEventListener('click', () => {
-  const hiddenCards = document.querySelectorAll('.tech-card:nth-child(n+4)');
-  const isHidden = hiddenCards[0].style.display === 'none' || !hiddenCards[0].style.display;
-
-  hiddenCards.forEach((card, index) => {
-    if(isHidden) {
-      card.style.display = 'flex';
-      setTimeout(() => observer.observe(card), 50 * index); // trigger animation
+    if(hiddenExists) {
+        showMoreBtn.parentElement.style.display = 'block';
+        showMoreBtn.textContent = 'See More';
     } else {
-      card.style.display = 'none';
+        showMoreBtn.parentElement.style.display = 'none';
     }
-  });
+}
 
-  showMoreBtn.textContent = isHidden ? 'Show Less' : 'See More';
+window.addEventListener('load', updateVisibleCards);
+window.addEventListener('resize', updateVisibleCards);
+
+showMoreBtn.addEventListener('click', () => {
+    const isHidden = Array.from(techCards).some(card => card.style.display === 'none');
+
+    techCards.forEach((card) => {
+        if(isHidden) {
+            card.style.display = 'flex';
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            cardObserver.observe(card);
+        } else {
+            updateVisibleCards();
+        }
+    });
+
+    showMoreBtn.textContent = isHidden ? 'Show Less' : 'See More';
 });
 
-// PROJECTS SECTION 
-
+// PROJECTS SECTION
 const projectCards = document.querySelectorAll('.project-card');
-
 const projectObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach((entry, index) => {
         if(entry.isIntersecting) {
@@ -155,10 +157,8 @@ const projectObserver = new IntersectionObserver((entries, observer) => {
         }
     });
 }, { threshold: 0.3 });
-
 projectCards.forEach(card => projectObserver.observe(card));
 
-// Projects section
 const projectsSection = document.querySelector('.projects');
 const projectsHeading = projectsSection.querySelector('h4');
 const projectsSubheading = projectsSection.querySelector('.subheading2');
@@ -166,17 +166,69 @@ const projectsSubheading = projectsSection.querySelector('.subheading2');
 const projectsObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            // Animate heading
             projectsHeading.classList.add('active');
-
-            // Animate subheading with a small delay
-            setTimeout(() => {
-                projectsSubheading.classList.add('active');
-            }, 200);
-
-            observer.unobserve(entry.target); // animate only once
+            setTimeout(() => projectsSubheading.classList.add('active'), 200);
+            observer.unobserve(entry.target);
         }
     });
 }, { threshold: 0.3 });
 
 projectsObserver.observe(projectsSection);
+
+// Projects Show More / Show Less
+const projectGrid = document.querySelector('.projects-grid');
+const projectCardsAll = document.querySelectorAll('.project-card');
+const projectsShowMoreBtn = document.querySelector('.projects .show-more-btn');
+
+function updateVisibleProjectCards() {
+    const gridWidth = projectGrid.clientWidth;
+    const cardWidth = projectCardsAll[0].getBoundingClientRect().width;
+    const gap = parseInt(getComputedStyle(projectGrid).gap) || 0;
+
+    // Determine number of cards per row based on screen width
+    let cardsPerRow = Math.floor((gridWidth + gap) / (cardWidth + gap));
+
+    if(window.innerWidth <= 450) {
+        cardsPerRow = 1; // show at least 1 card on phones
+    } else if(window.innerWidth < 1500) {
+        cardsPerRow = Math.min(cardsPerRow, 4); // tablets / medium screens
+    } else {
+        cardsPerRow = Math.min(cardsPerRow, 4); // large screens
+    }
+
+    let hiddenExists = false;
+
+    projectCardsAll.forEach((card, index) => {
+        if(index < cardsPerRow) {
+            card.classList.remove('hidden');
+        } else {
+            card.classList.add('hidden');
+            hiddenExists = true;
+        }
+    });
+
+    if(hiddenExists) {
+        projectsShowMoreBtn.parentElement.style.display = 'flex';
+        projectsShowMoreBtn.textContent = 'See More';
+    } else {
+        projectsShowMoreBtn.parentElement.style.display = 'none';
+    }
+}
+
+window.addEventListener('load', updateVisibleProjectCards);
+window.addEventListener('resize', updateVisibleProjectCards);
+
+projectsShowMoreBtn.addEventListener('click', () => {
+    const isHidden = Array.from(projectCardsAll).some(card => card.classList.contains('hidden'));
+
+    projectCardsAll.forEach((card) => {
+        if(isHidden) {
+            card.classList.remove('hidden');
+            projectObserver.observe(card);
+        } else {
+            updateVisibleProjectCards();
+        }
+    });
+
+    projectsShowMoreBtn.textContent = isHidden ? 'Show Less' : 'See More';
+});
