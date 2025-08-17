@@ -42,7 +42,7 @@ function typeWriter() {
     if (index < text.length) {
         subheading.textContent += text[index];
         index++;
-        setTimeout(typeWriter, 50);  // speed of typing in ms
+        setTimeout(typeWriter, 40);  // speed of typing in ms
     }
 }
 
@@ -73,6 +73,31 @@ const aboutObserver = new IntersectionObserver((entries, observer) => {
 aboutElements.forEach(el => aboutObserver.observe(el));
 
 //SKILLS SECTION
+
+// Core Languages Section Animation
+const languagesSection = document.querySelector('.technologies');
+const heading = languagesSection.querySelector('h3');
+const subheading2 = languagesSection.querySelector('.subheading2');
+
+const languagesObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if(entry.isIntersecting) {
+            // Animate heading
+            heading.classList.add('active');
+
+            // Animate subheading with a small delay
+            setTimeout(() => {
+                subheading2.classList.add('active');
+            }, 200); // 0.2s delay
+
+            observer.unobserve(entry.target); // animate only once
+        }
+    });
+}, { threshold: 0.3 });
+
+languagesObserver.observe(languagesSection);
+
+
 // Animate tech cards and progress bars on scroll
 const techCards = document.querySelectorAll('.tech-card');
 const showMoreBtn = document.querySelector('.show-more-btn');
@@ -116,3 +141,42 @@ showMoreBtn.addEventListener('click', () => {
 
   showMoreBtn.textContent = isHidden ? 'Show Less' : 'See More';
 });
+
+// PROJECTS SECTION 
+
+const projectCards = document.querySelectorAll('.project-card');
+
+const projectObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry, index) => {
+        if(entry.isIntersecting) {
+            const card = entry.target;
+            setTimeout(() => card.classList.add('active'), index * 150);
+            observer.unobserve(card);
+        }
+    });
+}, { threshold: 0.3 });
+
+projectCards.forEach(card => projectObserver.observe(card));
+
+// Projects section
+const projectsSection = document.querySelector('.projects');
+const projectsHeading = projectsSection.querySelector('h4');
+const projectsSubheading = projectsSection.querySelector('.subheading2');
+
+const projectsObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            // Animate heading
+            projectsHeading.classList.add('active');
+
+            // Animate subheading with a small delay
+            setTimeout(() => {
+                projectsSubheading.classList.add('active');
+            }, 200);
+
+            observer.unobserve(entry.target); // animate only once
+        }
+    });
+}, { threshold: 0.3 });
+
+projectsObserver.observe(projectsSection);

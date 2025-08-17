@@ -388,7 +388,13 @@ h2 {
     transform: translateY(0);
 }
 
+.animate-down {
+    transform: translateY(-30px);
+}
 
+.animate-on-scroll.active.animate-down {
+    transform: translateY(0);
+}
 
 /*--------------------------------*/
 /*Skills section*/
@@ -409,9 +415,21 @@ h2 {
     font-size: 34px;
     font-weight: 600;
     color: var(--app-font-color);
+}
+
+/* Initial state */
+.technologies h3,
+.technologies .subheading2 {
     opacity: 0;
     transform: translateY(20px);
-    animation: fadeSlideIn 0.8s forwards;
+    transition: all 0.6s ease-out;
+}
+
+/* When visible */
+.technologies h3.active,
+.technologies .subheading2.active {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .grid {
@@ -542,98 +560,10 @@ h2 {
     background-color: var(--app-hover-cover);
 }
 
+
 /*--------------------------------*/
 /*projects*/
 /*--------------------------------*/
-
-.row {
-    margin-top: 10px;
-    gap: 20px;
-    flex-wrap: wrap;
-    cursor: default;
-
-    p {
-        color: var(--app-font-color);
-        cursor: default;
-    }
-}
-
-.col {
-    flex: 0 0 auto;
-    width: calc(25% - 20px);
-    height: 450px;
-    border-radius: var(--app-box-radius);
-    border: 1px solid rgb(0 0 0 / 0.2);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: relative;
-    box-sizing: border-box;
-}
-
-.col p {
-    padding: 10px;
-}
-
-.links {
-    display: flex; 
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    margin-top: auto; 
-    margin-bottom: 10px;
-}
-
-.button {
-    padding: 5px;
-    width: 150px;
-    margin: 25px 5px;
-    align-self: flex-start;
-    height: 40px;
-    border-radius: var(--app-box-radius);
-    background-color: var(--app-font-color);
-    font-size: 15px;
-    font-weight: 600;
-    text-decoration: none;
-    text-align: center;
-
-    a {
-        color: #000;
-    }
-}
-
-.button2 {
-    padding: 5px;
-    width: 150px;
-    margin: 25px 5px;
-    align-self: flex-start;
-    height: 40px;
-    border-radius: var(--app-box-radius);
-    background-color: #4a90e2;
-    font-size: 15px;
-    font-weight: 600;
-    text-decoration: none;
-    text-align: center;
-
-    a {
-        color: var(--app-font-color);
-    }
-}
-
-.button2:hover {
-    color: #000;
-    background-color: var(--app-hover-cover);
-}
-
-.subheading2 {
-    text-align: center;
-    padding: 10px;
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 1.5;
-    margin-top: -10px;
-    color: var(--app-font-color);
-}
 
 h4 {
     padding: 10px;
@@ -643,31 +573,138 @@ h4 {
     color: var(--app-font-color);
 }
 
-.p {
-    font-weight: 600;
-}
-
-.view-github-button {
-    margin-bottom: 25px;
-    padding-left: 5px;
-}
-
-.view-github {
-    height: 40px;
-    width: 150px;
-    border-radius: var(--app-box-radius);
-    background-color: var(--app-button-color);
-    padding: 10px 15px;
+.subheading2 {
     text-align: center;
+    padding: 5px 10px;  
+    font-size: 20px;     
+    font-weight: 400;   
+    line-height: 1.6;    
+    margin-top: 0;        
+    color: #e0e0e0;       
+    max-width: 650px;          
+    margin-left: auto;         
+    margin-right: auto;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.project-card {
+    background-color: var(--app-dark-mode1);
+    border-radius: var(--app-box-radius);
     color: var(--app-font-color);
-    font-size: 15px;
+    padding: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: transform 0.5s ease, box-shadow 0.5s ease, opacity 0.5s ease;
+}
+
+.project-card img {
+    width: 100%;
+    border-radius: var(--app-box-radius);
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+}
+
+.project-card:hover img {
+    transform: scale(1.05);
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 25px rgba(97, 218, 251, 0.3);
+}
+
+.links {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 10px;
+    margin-top: auto;
+}
+
+.button, .button2 {
+    padding: 10px 15px;
+    border-radius: var(--app-box-radius);
     font-weight: 600;
     text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%; /* take full width of grid cell */
 }
 
-.view-github:hover {
-    color: var(--app-font-color);
+.button a, .button2 a {
+    color: inherit;
+}
+
+.button {
+    background-color: var(--app-font-color);
+    color: #000;
+}
+
+.button2 {
+    background-color: #4a90e2;
+    color: #fff;
+}
+
+.button2:hover {
     background-color: var(--app-hover-cover);
+    color: #000;
+}
+
+/* Scroll-triggered animation */
+.animate-on-scroll.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.project-card img,
+.project-card p,
+.project-card .links {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+.project-card.active img {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.1s;
+}
+
+.project-card.active p {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.3s;
+}
+
+.project-card.active .links {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.5s;
+}
+
+/* Initial hidden state for project section heading and subheading */
+.projects h4,
+.projects .subheading2 {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+/* Active state */
+.projects h4.active,
+.projects .subheading2.active {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /*--------------------------------*/
@@ -785,13 +822,16 @@ h5 {
     }
 
     .subheading2 {
-        padding: 10px;
         text-align: center;
-        font-size: 17px;
-        font-weight: 500;
-        line-height: 1.5;
-        margin-top: -10px;
-        color: var(--app-font-color);
+        padding: 5px 10px;  
+        font-size: 17px;     
+        font-weight: 400;   
+        line-height: 1.6;    
+        margin-top: 0;        
+        color: #e0e0e0;       
+        max-width: 650px;          
+        margin-left: auto;         
+        margin-right: auto;
     }
 }
 
@@ -842,13 +882,16 @@ h5 {
         color: var(--app-font-color);
     }
     .subheading2 {
-        padding: 10px;
         text-align: center;
-        font-size: 15px;
-        font-weight: 500;
-        line-height: 1.5;
-        margin-top: -10px;
-        color: var(--app-font-color);
+        padding: 5px 10px;  
+        font-size: 15px;     
+        font-weight: 400;   
+        line-height: 1.6;    
+        margin-top: 0;        
+        color: #e0e0e0;       
+        max-width: 650px;          
+        margin-left: auto;         
+        margin-right: auto;
     }
 
     .copyright p {
