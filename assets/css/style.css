@@ -36,11 +36,13 @@ html {
 }
 
 .bg {
-    background: var(--app-dark-mode);
+    background-color: var(--app-dark-mode);
+    box-shadow: inset 0 1px 2px rgba(255,255,255,0.03);
 }
 
 .bg2 {
     background-color: var(--app-dark-mode1);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.3); 
 }
 
 /*--------------------------------*/
@@ -50,6 +52,7 @@ html {
 .nav {
     justify-content: space-between;
     align-items: center;
+    padding-top: 20px;
 }
 
 .menu-icon {
@@ -144,12 +147,54 @@ a:hover {
     }
 }
 
-
 .logo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;   
+    align-items: flex-start;  
+    height: 70px;             
     font-size: 30px;
     font-weight: 700;
     cursor: default;
 }
+
+.logo a {
+    text-decoration: none;
+    color: var(--app-font-color);
+}
+
+.logo .tagline {
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 5px;
+    color: var(--app-font-color);
+    opacity: 0.8;
+    text-align: center;
+}
+
+/* Common fade-in animation */
+@keyframes fadeSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px); /* slide up effect */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.landing-page h1 {
+    opacity: 0; /* start hidden */
+    animation: fadeSlideIn 1s ease-out forwards; /* forwards keeps it visible */
+}
+
+.landing-page .subheading {
+    opacity: 0;
+    animation: fadeSlideIn 1s ease-out forwards;
+    animation-delay: 0.5s; /* delay for stagger effect */
+}
+
 
 /*--------------------------------*/
 /*Body*/
@@ -310,8 +355,43 @@ h2 {
     padding: 70px 0;
 }
 
+/* Scroll-triggered fade/slide for image and article */
+/* Base for scroll animation */
+.animate-on-scroll {
+    opacity: 0;
+    transition: all 0.6s ease-out;
+}
+
+.animate-left {
+    transform: translateX(-30px);
+}
+
+.animate-right {
+    transform: translateX(30px);
+}
+
+/* Active triggers the animation */
+.animate-on-scroll.active {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+}
+
+/* Paragraphs stagger */
+.stagger {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease-out;
+}
+
+.stagger.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+
 /*--------------------------------*/
-/*Skills*/
+/*Skills section*/
 /*--------------------------------*/
 
 .technologies {
@@ -323,67 +403,143 @@ h2 {
     color: var(--app-font-color);
 }
 
-.icon {
-    font-size: 30px; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
-
-.html-icon i {
-    color: #e34c26;
-}
-
-.css-icon i {
-    color: #1572b6; 
-}
-
-.java-icon i {
-    color: #007396; 
-}
-
-.js-icon i {
-    color: #f7df1e;
-}
-
-.ts-icon i {
-    color: #007acc; 
-}
-
-.processing-icon i {
-    color: #6e4c9e; 
-}
-
-.cplus-icon i {
-    color: #00599C; 
-}
-
-.csharp-icon i {
-    color: #9B4993; 
-}
-
-.mysql-icon i {
-    color: #00758F; 
-}
-
-.level {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: left;
-
-    p {
-        line-height: 1.5;
-    }
-}
-
-h3 {
+.technologies h3 {
     padding: 10px;
     text-align: center;
     font-size: 34px;
     font-weight: 600;
     color: var(--app-font-color);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeSlideIn 0.8s forwards;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.tech-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--app-dark-mode1);
+    padding: 20px;
+    border-radius: 12px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tech-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(97, 218, 251, 0.3);
+}
+
+.icon {
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    transition: transform 0.3s ease, text-shadow 0.3s ease;
+}
+
+.tech-card:hover .icon {
+    transform: scale(1.2);
+    text-shadow: 0 0 10px rgba(97, 218, 251, 0.6);
+}
+
+/* Skill Colors */
+.html-icon i { color: #e34c26; }
+.css-icon i { color: #1572b6; }
+.js-icon i { color: #f7df1e; }
+.java-icon i { color: #007396; }
+.ts-icon i { color: #007acc; }
+.processing-icon i { color: #6e4c9e; }
+.cplus-icon i { color: #00599C; }
+.csharp-icon i { color: #9B4993; }
+.mysql-icon i { color: #00758F; }
+
+.level {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.level p:first-child {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.progress {
+    width: 80%;
+    height: 6px;
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #61dafb, #21a1f1);
+    border-radius: 3px;
+    transition: width 1.2s ease-in-out;
+}
+
+@keyframes fadeSlideIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive: hide cards beyond 3 on small screens */
+@media (max-width: 768px) {
+    .tech-card:nth-child(n+4) {
+        display: none;
+    }
+    .show-more-container {
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+    }
+}
+
+/* Hide by default on larger screens */
+.show-more-container {
+    display: none;
+}
+
+/* Show only on small screens */
+@media (max-width: 768px) {
+    .show-more-container {
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+    }
+}
+
+.show-more-btn {
+    padding: 5px;
+    width: 150px;
+    margin: 25px 5px;
+    align-self: flex-start;
+    height: 40px;
+    border-radius: var(--app-box-radius);
+    background-color: #4a90e2;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    color: var(--app-font-color);
+}
+
+.show-more-btn:hover {
+    background-color: var(--app-hover-cover);
 }
 
 /*--------------------------------*/
@@ -607,10 +763,21 @@ h5 {
         font-size: 30px;
     }
 
+    .logo {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;   
+        align-items: flex-start;  
+        font-size: 30px;
+        font-weight: 700;
+        cursor: default;
+        margin-top: 20px;
+    }
+
     .subheading {
         padding: 10px;
         text-align: center;
-        font-size: 17px;
+        font-size: 15px;
         font-weight: 500;
         line-height: 1.5;
         margin-top: -10px;
@@ -652,6 +819,17 @@ h5 {
 
     h4 {
         font-size: 28px;
+    }
+
+    .logo {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;   
+        align-items: flex-start;  
+        font-size: 30px;
+        font-weight: 700;
+        cursor: default;
+        margin-top: 20px;
     }
 
     .subheading {
