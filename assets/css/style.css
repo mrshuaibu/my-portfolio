@@ -163,15 +163,6 @@ a:hover {
     color: var(--app-font-color);
 }
 
-.logo .tagline {
-    font-size: 14px;
-    font-weight: 400;
-    margin-top: 5px;
-    color: var(--app-font-color);
-    opacity: 0.8;
-    text-align: center;
-}
-
 /* Common fade-in animation */
 @keyframes fadeSlideIn {
     0% {
