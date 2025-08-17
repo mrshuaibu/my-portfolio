@@ -232,3 +232,5 @@ projectsShowMoreBtn.addEventListener('click', () => {
 
     projectsShowMoreBtn.textContent = isHidden ? 'Show Less' : 'See More';
 });
+
+// CONTACT ME SECTION
