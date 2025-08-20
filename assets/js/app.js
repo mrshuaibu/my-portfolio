@@ -65,24 +65,20 @@ if (languagesSection) {
         card.dataset.animated = "true";
     }
 
+    // Only trigger animation on scroll, DO NOT change display
     const cardObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting && entry.target.style.display !== 'none') {
+            if (entry.isIntersecting) {
                 animateTechCard(entry.target);
             }
         });
     }, { threshold: 0.2 });
-
     techCards.forEach(card => cardObserver.observe(card));
 
     function updateVisibleTechCards() {
         const initialVisible = 3;
         techCards.forEach((card, index) => {
-            if (techExpanded) {
-                card.style.display = 'flex';
-            } else {
-                card.style.display = index < initialVisible ? 'flex' : 'none';
-            }
+            card.style.display = techExpanded || index < initialVisible ? 'flex' : 'none';
         });
         showMoreBtn.textContent = techExpanded ? 'Show Less' : 'See More';
     }
@@ -103,7 +99,6 @@ const projectsSection = document.querySelector('.projects');
 if (projectsSection) {
     const projectCardsAll = document.querySelectorAll('.project-card');
     const projectsShowMoreBtn = document.querySelector('.projects-show-more-btn');
-    const projectGrid = document.querySelector('.projects-grid');
     let projectsExpanded = false;
 
     function animateProjectCard(card) {
@@ -114,12 +109,11 @@ if (projectsSection) {
 
     const projectObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting && !entry.target.classList.contains('hidden')) {
+            if (entry.isIntersecting) {
                 animateProjectCard(entry.target);
             }
         });
     }, { threshold: 0.3 });
-
     projectCardsAll.forEach(card => projectObserver.observe(card));
 
     // Animate heading/subheading
@@ -135,17 +129,12 @@ if (projectsSection) {
             }
         });
     }, { threshold: 0.3 });
-
     projectsObserver.observe(projectsSection);
 
     function updateVisibleProjectCards() {
         const cardsPerRow = window.innerWidth <= 450 ? 1 : Math.min(4, projectCardsAll.length);
         projectCardsAll.forEach((card, index) => {
-            if (projectsExpanded) {
-                card.classList.remove('hidden');
-            } else {
-                card.classList.toggle('hidden', index >= cardsPerRow);
-            }
+            card.classList.toggle('hidden', !projectsExpanded && index >= cardsPerRow);
         });
         projectsShowMoreBtn.textContent = projectsExpanded ? 'Show Less' : 'See More';
     }
@@ -174,5 +163,4 @@ const aboutObserver = new IntersectionObserver((entries, observer) => {
         }
     });
 }, { threshold: 0.3 });
-
 aboutElements.forEach(el => aboutObserver.observe(el));
