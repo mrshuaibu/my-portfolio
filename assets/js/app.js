@@ -1,45 +1,30 @@
 'use strict';
 
+// ------------------ MENU TOGGLE ------------------
 const menuIcon = document.querySelector('.menu-icon');
 const getInTouchButton = document.querySelector('.get-in-touch-button');
 
-// ------------------ MENU TOGGLE ------------------
-function closeActiveElements(event) {
+function closeActiveElements() {
     menuIcon.classList.remove('active');
     getInTouchButton.classList.remove('active');
-    removeEventListeners();
-}
-
-function addEventListeners() {
-    document.addEventListener('click', closeActiveElements);
-    document.addEventListener('scroll', closeActiveElements);
-}
-
-function removeEventListeners() {
-    document.removeEventListener('click', closeActiveElements);
-    document.removeEventListener('scroll', closeActiveElements);
 }
 
 menuIcon.addEventListener('click', function (event) {
     menuIcon.classList.toggle('active');
     getInTouchButton.classList.toggle('active');
-
-    if (menuIcon.classList.contains('active') || getInTouchButton.classList.contains('active')) {
-        addEventListeners();
-    } else {
-        removeEventListeners();
-    }
-
     event.stopPropagation();
+});
+
+document.addEventListener('click', (e) => {
+    if (!menuIcon.contains(e.target)) closeActiveElements();
 });
 
 // ------------------ TYPEWRITER EFFECT ------------------
 const subheading = document.querySelector('.subheading');
-if(subheading) {
+if (subheading) {
     const text = subheading.textContent;
     subheading.textContent = '';
     let index = 0;
-
     function typeWriter() {
         if (index < text.length) {
             subheading.textContent += text[index];
@@ -47,102 +32,90 @@ if(subheading) {
             setTimeout(typeWriter, 40);
         }
     }
-
     window.addEventListener('load', typeWriter);
 }
 
 // ------------------ SKILLS SECTION ------------------
 const languagesSection = document.querySelector('.technologies');
-if(languagesSection) {
+if (languagesSection) {
     const heading = languagesSection.querySelector('h3');
     const subheading2 = languagesSection.querySelector('.subheading2');
+    const techCards = document.querySelectorAll('.tech-card');
+    const showMoreBtn = document.querySelector('.show-more-btn');
+    let techExpanded = false;
 
+    // Animate heading and subheading
     const languagesObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
-            if(entry.isIntersecting) {
+            if (entry.isIntersecting) {
                 heading.classList.add('active');
                 setTimeout(() => subheading2.classList.add('active'), 200);
                 observer.unobserve(entry.target);
             }
         });
     }, { threshold: 0.3 });
-
     languagesObserver.observe(languagesSection);
 
-    // Tech cards
-    const techCards = document.querySelectorAll('.tech-card');
-    const cardObserver = new IntersectionObserver((entries, observer) => {
+    function animateTechCard(card) {
+        if (card.dataset.animated) return;
+        card.style.animation = 'fadeSlideIn 0.6s forwards';
+        const progressBar = card.querySelector('.progress-bar');
+        const level = progressBar.dataset.level;
+        setTimeout(() => progressBar.style.width = level, 100);
+        card.dataset.animated = "true";
+    }
+
+    const cardObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            const card = entry.target;
-            if(entry.isIntersecting && card.style.display !== 'none') {
-                card.style.animation = 'fadeSlideIn 0.6s forwards';
-                const progressBar = card.querySelector('.progress-bar');
-                const level = progressBar.dataset.level;
-                setTimeout(() => progressBar.style.width = level, 100);
-                observer.unobserve(card);
+            if (entry.isIntersecting && entry.target.style.display !== 'none') {
+                animateTechCard(entry.target);
             }
         });
     }, { threshold: 0.2 });
 
     techCards.forEach(card => cardObserver.observe(card));
 
-    // Show More / Show Less
-    const showMoreBtn = document.querySelector('.show-more-btn');
-
     function updateVisibleTechCards() {
         const initialVisible = 3;
-        let hiddenExists = false;
-
         techCards.forEach((card, index) => {
-            if(index < initialVisible) {
+            if (techExpanded) {
                 card.style.display = 'flex';
             } else {
-                card.style.display = 'none';
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                hiddenExists = true;
+                card.style.display = index < initialVisible ? 'flex' : 'none';
             }
         });
-
-        if(hiddenExists) {
-            showMoreBtn.parentElement.style.display = 'block';
-            showMoreBtn.textContent = 'See More';
-        } else {
-            showMoreBtn.parentElement.style.display = 'none';
-        }
+        showMoreBtn.textContent = techExpanded ? 'Show Less' : 'See More';
     }
 
-    window.addEventListener('load', updateVisibleTechCards);
-    window.addEventListener('resize', updateVisibleTechCards);
-
     showMoreBtn.addEventListener('click', () => {
-        const anyHidden = Array.from(techCards).some(card => card.style.display === 'none');
-        techCards.forEach(card => {
-            if(anyHidden) {
-                card.style.display = 'flex';
-                cardObserver.observe(card);
-            } else {
-                updateVisibleTechCards();
-            }
-        });
-        showMoreBtn.textContent = anyHidden ? 'Show Less' : 'See More';
+        techExpanded = !techExpanded;
+        updateVisibleTechCards();
+    });
+
+    window.addEventListener('load', updateVisibleTechCards);
+    window.addEventListener('resize', () => {
+        if (!techExpanded) updateVisibleTechCards();
     });
 }
 
 // ------------------ PROJECTS SECTION ------------------
 const projectsSection = document.querySelector('.projects');
-if(projectsSection) {
+if (projectsSection) {
     const projectCardsAll = document.querySelectorAll('.project-card');
     const projectsShowMoreBtn = document.querySelector('.projects-show-more-btn');
     const projectGrid = document.querySelector('.projects-grid');
+    let projectsExpanded = false;
 
-    // IntersectionObserver for project cards (only animate visible)
-    const projectObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach((entry, index) => {
-            const card = entry.target;
-            if(entry.isIntersecting && !card.classList.contains('hidden')) {
-                setTimeout(() => card.classList.add('active'), index * 150);
-                observer.unobserve(card);
+    function animateProjectCard(card) {
+        if (card.dataset.animated) return;
+        card.classList.add('active');
+        card.dataset.animated = "true";
+    }
+
+    const projectObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !entry.target.classList.contains('hidden')) {
+                animateProjectCard(entry.target);
             }
         });
     }, { threshold: 0.3 });
@@ -165,38 +138,30 @@ if(projectsSection) {
 
     projectsObserver.observe(projectsSection);
 
-    // Show More / Show Less logic
     function updateVisibleProjectCards() {
-        const gridWidth = projectGrid.clientWidth;
-        const cardWidth = projectCardsAll[0].getBoundingClientRect().width;
-        const gap = parseInt(getComputedStyle(projectGrid).gap) || 0;
-
-        let cardsPerRow = Math.floor((gridWidth + gap) / (cardWidth + gap));
-        if(window.innerWidth <= 450) cardsPerRow = 1;
-        else cardsPerRow = Math.min(cardsPerRow, 4);
-
+        const cardsPerRow = window.innerWidth <= 450 ? 1 : Math.min(4, projectCardsAll.length);
         projectCardsAll.forEach((card, index) => {
-            if(index < cardsPerRow) card.classList.remove('hidden');
-            else card.classList.add('hidden');
+            if (projectsExpanded) {
+                card.classList.remove('hidden');
+            } else {
+                card.classList.toggle('hidden', index >= cardsPerRow);
+            }
         });
-
-        const hiddenExists = Array.from(projectCardsAll).some(card => card.classList.contains('hidden'));
-        projectsShowMoreBtn.parentElement.style.display = hiddenExists ? 'flex' : 'none';
-        projectsShowMoreBtn.textContent = 'See More';
+        projectsShowMoreBtn.textContent = projectsExpanded ? 'Show Less' : 'See More';
     }
 
-    window.addEventListener('load', updateVisibleProjectCards);
-    window.addEventListener('resize', updateVisibleProjectCards);
-
     projectsShowMoreBtn.addEventListener('click', () => {
-        const anyHidden = Array.from(projectCardsAll).some(card => card.classList.contains('hidden'));
-        if(anyHidden) projectCardsAll.forEach(card => card.classList.remove('hidden'));
-        else updateVisibleProjectCards();
-        projectsShowMoreBtn.textContent = anyHidden ? 'Show Less' : 'See More';
+        projectsExpanded = !projectsExpanded;
+        updateVisibleProjectCards();
+    });
+
+    window.addEventListener('load', updateVisibleProjectCards);
+    window.addEventListener('resize', () => {
+        if (!projectsExpanded) updateVisibleProjectCards();
     });
 }
 
-// ------------------ ANIMATE ON SCROLL (GENERAL) ------------------
+// ------------------ GENERAL ANIMATE ON SCROLL ------------------
 const aboutElements = document.querySelectorAll('.animate-on-scroll');
 const aboutObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
