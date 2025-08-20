@@ -3,6 +3,7 @@
 const menuIcon = document.querySelector('.menu-icon');
 const getInTouchButton = document.querySelector('.get-in-touch-button');
 
+// ------------------ MENU TOGGLE ------------------
 function closeActiveElements(event) {
     menuIcon.classList.remove('active');
     getInTouchButton.classList.remove('active');
@@ -32,23 +33,170 @@ menuIcon.addEventListener('click', function (event) {
     event.stopPropagation();
 });
 
-// TYPEWRITER EFFECT
+// ------------------ TYPEWRITER EFFECT ------------------
 const subheading = document.querySelector('.subheading');
-const text = subheading.textContent;
-subheading.textContent = '';
-let index = 0;
+if(subheading) {
+    const text = subheading.textContent;
+    subheading.textContent = '';
+    let index = 0;
 
-function typeWriter() {
-    if (index < text.length) {
-        subheading.textContent += text[index];
-        index++;
-        setTimeout(typeWriter, 40);
+    function typeWriter() {
+        if (index < text.length) {
+            subheading.textContent += text[index];
+            index++;
+            setTimeout(typeWriter, 40);
+        }
     }
+
+    window.addEventListener('load', typeWriter);
 }
 
-window.addEventListener('load', typeWriter);
+// ------------------ SKILLS SECTION ------------------
+const languagesSection = document.querySelector('.technologies');
+if(languagesSection) {
+    const heading = languagesSection.querySelector('h3');
+    const subheading2 = languagesSection.querySelector('.subheading2');
 
-// ABOUT ME
+    const languagesObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting) {
+                heading.classList.add('active');
+                setTimeout(() => subheading2.classList.add('active'), 200);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    languagesObserver.observe(languagesSection);
+
+    // Tech cards
+    const techCards = document.querySelectorAll('.tech-card');
+    const cardObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            const card = entry.target;
+            if(entry.isIntersecting && card.style.display !== 'none') {
+                card.style.animation = 'fadeSlideIn 0.6s forwards';
+                const progressBar = card.querySelector('.progress-bar');
+                const level = progressBar.dataset.level;
+                setTimeout(() => progressBar.style.width = level, 100);
+                observer.unobserve(card);
+            }
+        });
+    }, { threshold: 0.2 });
+
+    techCards.forEach(card => cardObserver.observe(card));
+
+    // Show More / Show Less
+    const showMoreBtn = document.querySelector('.show-more-btn');
+
+    function updateVisibleTechCards() {
+        const initialVisible = 3;
+        let hiddenExists = false;
+
+        techCards.forEach((card, index) => {
+            if(index < initialVisible) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                hiddenExists = true;
+            }
+        });
+
+        if(hiddenExists) {
+            showMoreBtn.parentElement.style.display = 'block';
+            showMoreBtn.textContent = 'See More';
+        } else {
+            showMoreBtn.parentElement.style.display = 'none';
+        }
+    }
+
+    window.addEventListener('load', updateVisibleTechCards);
+    window.addEventListener('resize', updateVisibleTechCards);
+
+    showMoreBtn.addEventListener('click', () => {
+        const anyHidden = Array.from(techCards).some(card => card.style.display === 'none');
+        techCards.forEach(card => {
+            if(anyHidden) {
+                card.style.display = 'flex';
+                cardObserver.observe(card);
+            } else {
+                updateVisibleTechCards();
+            }
+        });
+        showMoreBtn.textContent = anyHidden ? 'Show Less' : 'See More';
+    });
+}
+
+// ------------------ PROJECTS SECTION ------------------
+const projectsSection = document.querySelector('.projects');
+if(projectsSection) {
+    const projectCardsAll = document.querySelectorAll('.project-card');
+    const projectsShowMoreBtn = document.querySelector('.projects-show-more-btn');
+    const projectGrid = document.querySelector('.projects-grid');
+
+    // IntersectionObserver for project cards (only animate visible)
+    const projectObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry, index) => {
+            const card = entry.target;
+            if(entry.isIntersecting && !card.classList.contains('hidden')) {
+                setTimeout(() => card.classList.add('active'), index * 150);
+                observer.unobserve(card);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    projectCardsAll.forEach(card => projectObserver.observe(card));
+
+    // Animate heading/subheading
+    const projectsHeading = projectsSection.querySelector('h4');
+    const projectsSubheading = projectsSection.querySelector('.subheading2');
+
+    const projectsObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                projectsHeading.classList.add('active');
+                setTimeout(() => projectsSubheading.classList.add('active'), 200);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    projectsObserver.observe(projectsSection);
+
+    // Show More / Show Less logic
+    function updateVisibleProjectCards() {
+        const gridWidth = projectGrid.clientWidth;
+        const cardWidth = projectCardsAll[0].getBoundingClientRect().width;
+        const gap = parseInt(getComputedStyle(projectGrid).gap) || 0;
+
+        let cardsPerRow = Math.floor((gridWidth + gap) / (cardWidth + gap));
+        if(window.innerWidth <= 450) cardsPerRow = 1;
+        else cardsPerRow = Math.min(cardsPerRow, 4);
+
+        projectCardsAll.forEach((card, index) => {
+            if(index < cardsPerRow) card.classList.remove('hidden');
+            else card.classList.add('hidden');
+        });
+
+        const hiddenExists = Array.from(projectCardsAll).some(card => card.classList.contains('hidden'));
+        projectsShowMoreBtn.parentElement.style.display = hiddenExists ? 'flex' : 'none';
+        projectsShowMoreBtn.textContent = 'See More';
+    }
+
+    window.addEventListener('load', updateVisibleProjectCards);
+    window.addEventListener('resize', updateVisibleProjectCards);
+
+    projectsShowMoreBtn.addEventListener('click', () => {
+        const anyHidden = Array.from(projectCardsAll).some(card => card.classList.contains('hidden'));
+        if(anyHidden) projectCardsAll.forEach(card => card.classList.remove('hidden'));
+        else updateVisibleProjectCards();
+        projectsShowMoreBtn.textContent = anyHidden ? 'Show Less' : 'See More';
+    });
+}
+
+// ------------------ ANIMATE ON SCROLL (GENERAL) ------------------
 const aboutElements = document.querySelectorAll('.animate-on-scroll');
 const aboutObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
@@ -56,176 +204,10 @@ const aboutObserver = new IntersectionObserver((entries, observer) => {
             const el = entry.target;
             el.classList.add('active');
             const paragraphs = el.querySelectorAll('.stagger');
-            paragraphs.forEach((p, i) => {
-                setTimeout(() => p.classList.add('active'), i * 200);
-            });
+            paragraphs.forEach((p, i) => setTimeout(() => p.classList.add('active'), i * 200));
             observer.unobserve(el);
         }
     });
 }, { threshold: 0.3 });
+
 aboutElements.forEach(el => aboutObserver.observe(el));
-
-// SKILLS SECTION
-const languagesSection = document.querySelector('.technologies');
-const heading = languagesSection.querySelector('h3');
-const subheading2 = languagesSection.querySelector('.subheading2');
-
-const languagesObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-        if(entry.isIntersecting) {
-            heading.classList.add('active');
-            setTimeout(() => subheading2.classList.add('active'), 200);
-            observer.unobserve(entry.target);
-        }
-    });
-}, { threshold: 0.3 });
-
-languagesObserver.observe(languagesSection);
-
-// TECH CARDS - SHOW MORE / SHOW LESS
-const showMoreBtn = document.querySelector('.show-more-btn');
-const techCards = document.querySelectorAll('.tech-card');
-const grid = document.querySelector('.grid');
-
-const cardObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-        if(entry.isIntersecting) {
-            const card = entry.target;
-            card.style.animation = 'fadeSlideIn 0.6s forwards';
-            const progressBar = card.querySelector('.progress-bar');
-            const level = progressBar.dataset.level;
-            setTimeout(() => progressBar.style.width = level, 100);
-            observer.unobserve(card);
-        }
-    });
-}, { threshold: 0.2 });
-
-techCards.forEach(card => cardObserver.observe(card));
-
-// Show 3 cards initially for tech section
-function updateVisibleCards() {
-    const initialVisible = 3;
-    let hiddenExists = false;
-
-    techCards.forEach((card, index) => {
-        if(index < initialVisible) {
-            card.style.display = 'flex';
-        } else {
-            card.style.display = 'none';
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            hiddenExists = true;
-        }
-    });
-
-    if(hiddenExists) {
-        showMoreBtn.parentElement.style.display = 'block';
-        showMoreBtn.textContent = 'See More';
-    } else {
-        showMoreBtn.parentElement.style.display = 'none';
-    }
-}
-
-window.addEventListener('load', updateVisibleCards);
-window.addEventListener('resize', updateVisibleCards);
-
-showMoreBtn.addEventListener('click', () => {
-    const isHidden = Array.from(techCards).some(card => card.style.display === 'none');
-
-    techCards.forEach((card) => {
-        if(isHidden) {
-            card.style.display = 'flex';
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            cardObserver.observe(card);
-        } else {
-            updateVisibleCards();
-        }
-    });
-
-    showMoreBtn.textContent = isHidden ? 'Show Less' : 'See More';
-});
-
-// PROJECTS SECTION
-const projectCards = document.querySelectorAll('.project-card');
-const projectObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach((entry, index) => {
-        if(entry.isIntersecting) {
-            const card = entry.target;
-            setTimeout(() => card.classList.add('active'), index * 150);
-            observer.unobserve(card);
-        }
-    });
-}, { threshold: 0.3 });
-projectCards.forEach(card => projectObserver.observe(card));
-
-const projectsSection = document.querySelector('.projects');
-const projectsHeading = projectsSection.querySelector('h4');
-const projectsSubheading = projectsSection.querySelector('.subheading2');
-
-const projectsObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            projectsHeading.classList.add('active');
-            setTimeout(() => projectsSubheading.classList.add('active'), 200);
-            observer.unobserve(entry.target);
-        }
-    });
-}, { threshold: 0.3 });
-
-projectsObserver.observe(projectsSection);
-
-// Projects Show More / Show Less
-const projectGrid = document.querySelector('.projects-grid');
-const projectCardsAll = document.querySelectorAll('.project-card');
-const projectsShowMoreBtn = document.querySelector('.projects-show-more-btn');
-
-// Function to determine initial visible cards based on screen size
-function updateVisibleProjectCards() {
-    const gridWidth = projectGrid.clientWidth;
-    const cardWidth = projectCardsAll[0].getBoundingClientRect().width;
-    const gap = parseInt(getComputedStyle(projectGrid).gap) || 0;
-
-    let cardsPerRow = Math.floor((gridWidth + gap) / (cardWidth + gap));
-
-    if(window.innerWidth <= 450) {
-        cardsPerRow = 1;
-    } else if(window.innerWidth < 1500) {
-        cardsPerRow = Math.min(cardsPerRow, 4);
-    } else {
-        cardsPerRow = Math.min(cardsPerRow, 4);
-    }
-
-    projectCardsAll.forEach((card, index) => {
-        if(index < cardsPerRow) {
-            card.classList.remove('hidden');
-        } else {
-            card.classList.add('hidden');
-        }
-    });
-
-    // Show or hide the button depending on hidden cards
-    const hiddenExists = Array.from(projectCardsAll).some(card => card.classList.contains('hidden'));
-    projectsShowMoreBtn.parentElement.style.display = hiddenExists ? 'flex' : 'none';
-    projectsShowMoreBtn.textContent = 'See More';
-}
-
-// Initial setup
-window.addEventListener('load', updateVisibleProjectCards);
-window.addEventListener('resize', updateVisibleProjectCards);
-
-// Button click logic
-projectsShowMoreBtn.addEventListener('click', () => {
-    const anyHidden = Array.from(projectCardsAll).some(card => card.classList.contains('hidden'));
-
-    if(anyHidden) {
-        // Show all cards
-        projectCardsAll.forEach(card => card.classList.remove('hidden'));
-        projectsShowMoreBtn.textContent = 'Show Less';
-    } else {
-        // Collapse to initial visible cards
-        updateVisibleProjectCards();
-        projectsShowMoreBtn.textContent = 'See More';
-    }
-});
-
