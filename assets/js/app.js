@@ -222,16 +222,19 @@ window.addEventListener('resize', updateVisibleProjectCards);
 projectsShowMoreBtn.addEventListener('click', () => {
     const isHidden = Array.from(projectCardsAll).some(card => card.classList.contains('hidden'));
 
-    projectCardsAll.forEach((card) => {
-        if(isHidden) {
+    if (isHidden) {
+        // Expand: show all cards
+        projectCardsAll.forEach(card => {
             card.classList.remove('hidden');
             projectObserver.observe(card);
-        } else {
-            updateVisibleProjectCards();
-        }
-    });
-
-    projectsShowMoreBtn.textContent = isHidden ? 'Show Less' : 'See More';
+        });
+        projectsShowMoreBtn.textContent = 'Show Less';
+    } else {
+        // Collapse: only show the initial set
+        updateVisibleProjectCards();
+        projectsShowMoreBtn.textContent = 'See More';
+    }
 });
+
 
 // CONTACT ME SECTION
