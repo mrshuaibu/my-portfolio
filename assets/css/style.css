@@ -696,7 +696,7 @@ h4 {
 }
 
 .project-card.hidden {
-    display: none !important;
+    display: none;
 }
 
 
@@ -744,6 +744,24 @@ h4 {
 
 .links {
     margin-top: 10px;
+}
+
+.projects-show-more-btn {
+    padding: 5px;
+    width: 150px;
+    height: 40px;
+    border-radius: var(--app-box-radius);
+    background-color: #4a90e2;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    color: var(--app-font-color);
+    cursor: pointer;
+}
+
+
+.projects-show-more-btn:hover {
+    background-color: var(--app-hover-cover);
 }
 
 /*--------------------------------*/

@@ -178,7 +178,8 @@ projectsObserver.observe(projectsSection);
 // Projects Show More / Show Less
 const projectGrid = document.querySelector('.projects-grid');
 const projectCardsAll = document.querySelectorAll('.project-card');
-const projectsShowMoreBtn = document.querySelector('.projects .show-more-btn');
+// const projectsShowMoreBtn = document.querySelector('.projects .show-more-btn');
+const projectsShowMoreBtn = document.querySelector('.projects-show-more-btn');
 
 function updateVisibleProjectCards() {
     const gridWidth = projectGrid.clientWidth;
