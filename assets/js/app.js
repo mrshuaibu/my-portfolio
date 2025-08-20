@@ -178,63 +178,54 @@ projectsObserver.observe(projectsSection);
 // Projects Show More / Show Less
 const projectGrid = document.querySelector('.projects-grid');
 const projectCardsAll = document.querySelectorAll('.project-card');
-// const projectsShowMoreBtn = document.querySelector('.projects .show-more-btn');
 const projectsShowMoreBtn = document.querySelector('.projects-show-more-btn');
 
+// Function to determine initial visible cards based on screen size
 function updateVisibleProjectCards() {
     const gridWidth = projectGrid.clientWidth;
     const cardWidth = projectCardsAll[0].getBoundingClientRect().width;
     const gap = parseInt(getComputedStyle(projectGrid).gap) || 0;
 
-    // Determine number of cards per row based on screen width
     let cardsPerRow = Math.floor((gridWidth + gap) / (cardWidth + gap));
 
     if(window.innerWidth <= 450) {
-        cardsPerRow = 1; // show at least 1 card on phones
+        cardsPerRow = 1;
     } else if(window.innerWidth < 1500) {
-        cardsPerRow = Math.min(cardsPerRow, 4); // tablets / medium screens
+        cardsPerRow = Math.min(cardsPerRow, 4);
     } else {
-        cardsPerRow = Math.min(cardsPerRow, 4); // large screens
+        cardsPerRow = Math.min(cardsPerRow, 4);
     }
-
-    let hiddenExists = false;
 
     projectCardsAll.forEach((card, index) => {
         if(index < cardsPerRow) {
             card.classList.remove('hidden');
         } else {
             card.classList.add('hidden');
-            hiddenExists = true;
         }
     });
 
-    if(hiddenExists) {
-        projectsShowMoreBtn.parentElement.style.display = 'flex';
-        projectsShowMoreBtn.textContent = 'See More';
-    } else {
-        projectsShowMoreBtn.parentElement.style.display = 'none';
-    }
+    // Show or hide the button depending on hidden cards
+    const hiddenExists = Array.from(projectCardsAll).some(card => card.classList.contains('hidden'));
+    projectsShowMoreBtn.parentElement.style.display = hiddenExists ? 'flex' : 'none';
+    projectsShowMoreBtn.textContent = 'See More';
 }
 
+// Initial setup
 window.addEventListener('load', updateVisibleProjectCards);
 window.addEventListener('resize', updateVisibleProjectCards);
 
+// Button click logic
 projectsShowMoreBtn.addEventListener('click', () => {
-    const isHidden = Array.from(projectCardsAll).some(card => card.classList.contains('hidden'));
+    const anyHidden = Array.from(projectCardsAll).some(card => card.classList.contains('hidden'));
 
-    if (isHidden) {
-        // Expand: show all cards
-        projectCardsAll.forEach(card => {
-            card.classList.remove('hidden');
-            projectObserver.observe(card);
-        });
+    if(anyHidden) {
+        // Show all cards
+        projectCardsAll.forEach(card => card.classList.remove('hidden'));
         projectsShowMoreBtn.textContent = 'Show Less';
     } else {
-        // Collapse: only show the initial set
+        // Collapse to initial visible cards
         updateVisibleProjectCards();
         projectsShowMoreBtn.textContent = 'See More';
     }
 });
 
-
-// CONTACT ME SECTION
