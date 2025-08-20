@@ -136,7 +136,14 @@ if (projectsSection) {
         projectCardsAll.forEach((card, index) => {
             card.classList.toggle('hidden', !projectsExpanded && index >= cardsPerRow);
         });
-        projectsShowMoreBtn.textContent = projectsExpanded ? 'Show Less' : 'See More';
+
+        // Hide "See More" button on big screens
+        if (window.innerWidth > 500) {
+            projectsShowMoreBtn.style.display = 'none';
+        } else {
+            projectsShowMoreBtn.style.display = 'inline-block';
+            projectsShowMoreBtn.textContent = projectsExpanded ? 'Show Less' : 'See More';
+        }
     }
 
     projectsShowMoreBtn.addEventListener('click', () => {
